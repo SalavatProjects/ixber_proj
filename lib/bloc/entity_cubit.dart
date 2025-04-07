@@ -14,8 +14,7 @@ class EntityCubit extends Cubit<EntityState> {
   EntityCubit() : super(const EntityState());
 
   Future<void> getUserProfile() async {
-    final userProfile = await AppIsarDatabase.getUserProfile();
-    if (userProfile == null) {
+    if (await AppIsarDatabase.getUserProfile() == null) {
       await _createUserProfile(UserProfileState().copyWith(
         goalType: AppConstants.goalTypes[0],
         gender: AppConstants.genders[0],
@@ -24,6 +23,7 @@ class EntityCubit extends Cubit<EntityState> {
         foodEnergyUnit: AppConstants.foodEnergyUnits[0],
       ));
     }
+    final userProfile = await AppIsarDatabase.getUserProfile();
     emit(state.copyWith(userProfile: userProfile != null ? UserProfileState.fromIsarModel(userProfile) : UserProfileState()));
   }
 
